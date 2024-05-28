@@ -7,7 +7,11 @@
       @on-submit="onSubmit"
     />
     <Header />
-    <CallToActions @show-popup="openCloseForm" />
+    <CallToActions
+      @show-popup="openCloseForm"
+      @user-registered="handleUserRegistered"
+      @user-logged-out="handleUserLoggedOut"
+    />
     <Footer />
   </div>
 </template>
@@ -35,6 +39,7 @@ export default {
     popupContent: "",
     showInputsPopup: false,
     inputsPopupPage: "",
+    showSignUpButton: true,
   }),
 
   mounted() {
@@ -54,6 +59,13 @@ export default {
     openCloseForm(item) {
       this.popupContent = item;
       this.showPopup = !this.showPopup;
+    },
+
+    handleUserRegistered() {
+      this.showSignUpButton = false;
+    },
+    handleUserLoggedOut() {
+      this.showSignUpButton = true;
     },
 
     async onSubmit(payload) {

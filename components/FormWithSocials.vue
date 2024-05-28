@@ -38,6 +38,7 @@
             </div>
 
             <socials
+              v-if="popupContent.showSocials"
               :items="socials"
               :description="popupContent.question"
               :value.sync="messengerType"
@@ -45,8 +46,12 @@
             />
             <div class="top__button" @click="onSubmit">
               <a>
-                Receive via
-                {{ activeSocial.title }}
+                {{ popupContent.btnText }}
+                <span v-if="popupContent.showSocials">
+                  via {{ activeSocial.title }}
+                </span>
+                <!-- Receive via
+                {{ activeSocial.title }} -->
               </a>
             </div>
           </div>
@@ -244,12 +249,16 @@ export default {
         window.open(url, "_blank");
       }
 
+      this.$emit("user-registered");
+
       if (!this.isRegistered) {
         localStorage.setItem("name", this.firstName);
         localStorage.setItem("email", this.email);
       }
 
       this.isSuccess = true;
+
+      this.$emit("submit-success");
     },
 
     closePopup() {

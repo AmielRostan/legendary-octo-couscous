@@ -5,9 +5,10 @@
       :popup-content="popupContent"
       :translate-lang="translateLang"
       @closePopup="openCloseFormWithSocials"
+      @submit-success="handleSubmitSuccess"
     />
     <div class="CallToActions__title">How can we serve you?</div>
-    <div class="CallToActions__register">
+    <div class="CallToActions__register" v-if="showSignUpMessage">
       <span class="CallToActions__registerText">
         Do you want to sign up to get weekly reminders via email? They contain
         special insights into the topic!
@@ -16,11 +17,14 @@
         Sign Up
       </a>
     </div>
-    <RequestCoach
+    <div v-if="isUserLoggedIn" class="CallToActions__register">
+      <a @click="logout" class="CallToActions__registerButton">Logout</a>
+    </div>
+    <!-- <RequestCoach
       class="CallToActions__RequestCoach"
       :translate-lang="translateLang"
       @openPopup="openCloseInputsPopup"
-    />
+    /> -->
     <div class="CallToActions__Cards">
       <template v-for="(item, index) in items">
         <Card
@@ -41,7 +45,7 @@ export default {
 
   components: {
     Card: () => import("~/components/Card"),
-    RequestCoach: () => import("~/components/RequestCoach"),
+    // RequestCoach: () => import("~/components/RequestCoach"),
     FormWithSocials: () => import("~/components/FormWithSocials"),
   },
 
@@ -54,9 +58,19 @@ export default {
 
   data() {
     return {
+      isUserLoggedIn: false,
       popupContent: "",
       showFormWithSocials: false,
       showRequestCoach: false,
+      showSignUpMessage: true,
+      signUpContent: {
+        title: "Sign Up",
+        desc: "Please fill in the details below to create an account.",
+        question: "",
+        placeholder: "Enter your details",
+        btnText: "Sign Up",
+        showSocials: false,
+      },
       pray: {
         id: "prayRequest",
         icon: "pray-hands",
@@ -67,6 +81,7 @@ export default {
         placeholder: "Please enter your prayer request",
         btnText: "Submit",
         hubspotId: "dbbaeef5-a7d6-4fa4-a68b-df392dd26bdd",
+        showSocials: true,
       },
       bible: {
         id: "bibleStudy",
@@ -84,6 +99,7 @@ export default {
         placeholder: "Please enter your question",
         btnText: "Submit",
         hubspotId: "d4b36332-b4c7-400a-8d91-910b4a8fb037",
+        showSocials: true,
       },
     };
   },
@@ -130,6 +146,19 @@ export default {
   },
 
   methods: {
+    handleSubmitSuccess() {
+      this.showSignUpMessage = false;
+      this.isUserLoggedIn = true;
+    },
+
+    logout() {
+      localStorage.removeItem("name");
+      localStorage.removeItem("email");
+      this.isUserLoggedIn = false;
+      this.showSignUpMessage = true;
+      this.$emit("user-logged-out");
+    },
+
     openCloseFormWithSocials() {
       this.showFormWithSocials = !this.showFormWithSocials;
     },
@@ -146,7 +175,10 @@ export default {
       }
     },
     openRegisterPopup() {
+      this.popupContent = this.signUpContent;
       this.showFormWithSocials = true;
+      // this.showSignUpMessage = false;
+      // this.isUserLoggedIn = true;
     },
     openCloseInputsPopup(status) {
       if (status === "reg") {
