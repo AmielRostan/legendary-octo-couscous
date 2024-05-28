@@ -7,6 +7,12 @@
       @closePopup="openCloseFormWithSocials"
       @submit-success="handleSubmitSuccess"
     />
+    <InputsPopup
+      v-if="showInputsPopup"
+      :translate-lang="translateLang"
+      :page="inputsPopupPage"
+      @closePopup="closeInputsPopup"
+    />
     <div class="CallToActions__title">How can we serve you?</div>
     <div class="CallToActions__register" v-if="showSignUpMessage">
       <span class="CallToActions__registerText">
@@ -47,12 +53,17 @@ export default {
     Card: () => import("~/components/Card"),
     // RequestCoach: () => import("~/components/RequestCoach"),
     FormWithSocials: () => import("~/components/FormWithSocials"),
+    InputsPopup: () => import("~/components/InputsPopup"),
   },
 
   props: {
     translateLang: {
       type: Array,
       default: () => [],
+    },
+    inputsPopupPage: {
+      type: String,
+      default: () => "reg",
     },
   },
 
@@ -63,14 +74,15 @@ export default {
       showFormWithSocials: false,
       showRequestCoach: false,
       showSignUpMessage: true,
-      signUpContent: {
-        title: "Sign Up",
-        desc: "Please fill in the details below to create an account.",
-        question: "",
-        placeholder: "Enter your details",
-        btnText: "Sign Up",
-        showSocials: false,
-      },
+      showInputsPopup: false,
+      // signUpContent: {
+      //   title: "Sign Up",
+      //   desc: "Please fill in the details below to create an account.",
+      //   question: "",
+      //   placeholder: "Enter your details",
+      //   btnText: "Sign Up",
+      //   showSocials: false,
+      // },
       pray: {
         id: "prayRequest",
         icon: "pray-hands",
@@ -175,8 +187,10 @@ export default {
       }
     },
     openRegisterPopup() {
-      this.popupContent = this.signUpContent;
-      this.showFormWithSocials = true;
+      // this.popupContent = this.signUpContent;
+      // this.$emit("show-popup", "reg");
+      this.showInputsPopup = true;
+      // this.$refs.inputsPopup.page = "reg";
       // this.showSignUpMessage = false;
       // this.isUserLoggedIn = true;
     },

@@ -59,6 +59,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "InputsPopup",
 
@@ -79,6 +81,12 @@ export default {
     isValid: true,
     popup: "",
   }),
+
+  watch: {
+    page(newVal) {
+      this.popup = newVal;
+    },
+  },
 
   created() {
     this.popup = this.page;
@@ -101,16 +109,42 @@ export default {
       this.isValid = this.email.match(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g);
       if (!this.isValid) return;
 
-      localStorage.name = this.name;
-      localStorage.email = this.email;
+      // localStorage.name = this.name;
+      // localStorage.email = this.email;
 
-      this.isRegister = await this.$axios.$post(this.$config.orionApiEndpoint, {
-        cmd: "requestCoach",
-        firstname: this.name,
-        email: this.email,
-        token: this.$config.orionApiClientSecret,
-      });
-      this.popup = "success";
+      // this.isRegister = await this.$axios.$post(this.$config.orionApiEndpoint, {
+      //   cmd: "requestCoach",
+      //   firstname: this.name,
+      //   email: this.email,
+      //   token: this.$config.orionApiClientSecret,
+      // });
+      // this.popup = "success";
+      const formData = {
+        fields: [
+          {
+            objectTypeId: "0-1",
+            name: "email",
+            value: this.email,
+          },
+          {
+            objectTypeId: "0-1",
+            name: "firstname",
+            value: this.name,
+          },
+        ],
+      };
+
+      const url =
+        "https://api.hsforms.com/submissions/v3/integration/submit/4189584/d9f6aeef-5e97-48ea-ba80-b55e0c0cd081";
+
+      try {
+        console.log("Sending POST request", formData); // Depuración
+        const response = await axios.post(url, formData);
+        console.log("Response:", response); // Depuración
+        this.popup = "success";
+      } catch (error) {
+        console.error("Error submitting form:", error);
+      }
     },
 
     closePopup() {
