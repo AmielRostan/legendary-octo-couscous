@@ -1,12 +1,19 @@
 <template>
   <div class="CallToActions">
-    <InputsPopup
-      v-if="showInputsPopup"
+    <FormWithSocials
+      v-if="showFormWithSocials"
+      :popup-content="popupContent"
       :translate-lang="translateLang"
-      :page="inputsPopupPage"
-      @closePopup="openCloseInputsPopup"
+      @closePopup="openCloseFormWithSocials"
     />
     <div class="CallToActions__title">How can we serve you?</div>
+    <div class="CallToActions__register">
+      <span class="CallToActions__registerText">
+        Do you want to sign up to get weekly reminders via email? They contain
+        special insights into the topic!
+      </span>
+      <a class="CallToActions__registerButton">Sign Up</a>
+    </div>
     <!--<RequestCoach
       class="CallToActions__RequestCoach"
       :translate-lang="translateLang"
@@ -33,7 +40,7 @@ export default {
   components: {
     Card: () => import("~/components/Card"),
     // RequestCoach: () => import("~/components/RequestCoach"),
-    InputsPopup: () => import("~/components/InputsPopup"),
+    FormWithSocials: () => import("~/components/FormWithSocials"),
   },
 
   props: {
@@ -45,8 +52,8 @@ export default {
 
   data() {
     return {
-      inputsPopupPage: "",
-      showInputsPopup: false,
+      popupContent: "",
+      showFormWithSocials: false,
       pray: {
         id: "prayRequest",
         icon: "pray-hands",
@@ -61,7 +68,8 @@ export default {
       bible: {
         id: "bibleStudy",
         hubspotId: "514e1b13-68b0-4cd6-8323-fdae0ff1c6eb",
-        href: "https://bibleschools.com/1505",
+        // Here is where I have to change the url to
+        href: "http://more.bibleawr.com ",
       },
       question: {
         id: "askQuestion",
@@ -119,18 +127,19 @@ export default {
   },
 
   methods: {
-    openCloseInputsPopup(val) {
-      if (val) this.inputsPopupPage = val;
-      this.showInputsPopup = !this.showInputsPopup;
+    openCloseFormWithSocials() {
+      this.showFormWithSocials = !this.showFormWithSocials;
     },
 
     openPopup(item) {
       if (item.id === "pray") {
-        this.$emit("show-popup", this.pray);
+        this.popupContent = this.pray;
+        this.showFormWithSocials = true;
       } else if (item.id === "bible") {
         window.open(this.bible.href, "_blank");
       } else if (item.id === "question") {
-        this.$emit("show-popup", this.question);
+        this.popupContent = this.question;
+        this.showFormWithSocials = true;
       }
     },
   },
@@ -155,6 +164,35 @@ export default {
   font-size: 40px;
   text-align: center;
   color: #0267b5;
+}
+
+.CallToActions__register {
+  text-align: center;
+  margin-bottom: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.CallToActions__registerText {
+  font-family: Kanit;
+  font-size: 18px;
+  margin-right: 10px;
+  color: #333;
+}
+
+.CallToActions__registerButton {
+  color: #db4150;
+  cursor: pointer;
+  font-family: Kanit;
+  font-weight: 500;
+  font-size: 19px;
+  line-height: 25px;
+  white-space: nowrap;
+}
+
+.CallToActions__registerButton:hover {
+  color: #d75d69;
 }
 
 .CallToActions__Cards {

@@ -13,71 +13,42 @@
             {{ popupContent.desc }}
           </div>
           <div id="registration" class="FormWithSocials__register">
-            <template v-if="state === 'request'">
-              <div class="form-group">
-                <textarea
-                  id="textarea"
-                  v-model.trim="subject"
-                  name="textarea"
-                  class="input_textarea"
-                  :class="{ 'input__has-error': !isInputValid }"
-                  rows="3"
-                  max-rows="3"
-                  :placeholder="popupContent.placeholder"
-                  @blur="
-                    subject ? (isInputValid = true) : (isInputValid = false)
-                  "
-                ></textarea>
-                <div v-if="!isInputValid" class="error-message">
-                  {{ popupContent.placeholder }}
-                </div>
-              </div>
-
-              <div class="top__button">
-                <a @click="onNext">
-                  {{ popupContent.btnText }}
-                </a>
-              </div>
-            </template>
-
-            <template v-else-if="state === 'send'">
-              <div v-show="!isRegistered" class="form-group">
-                <input
-                  v-model.trim="firstName"
-                  class="input"
-                  placeholder="Please enter your name"
-                  @keyup.enter="onSubmit"
-                />
-                <input
-                  v-model.trim="email"
-                  class="input"
-                  :class="{ isValid: !isValid }"
-                  placeholder="Please enter a valid email"
-                  @blur="checkForm"
-                  @keydown.enter.prevent="onSubmit"
-                />
-                <span
-                  v-if="!isValid"
-                  class="not__valid"
-                  :class="{ notValid: !isValid }"
-                >
-                  Please enter a valid email address
-                </span>
-              </div>
-
-              <socials
-                :items="socials"
-                :description="popupContent.question"
-                :value.sync="messengerType"
-                :translate-lang="translateLang"
+            <div v-show="!isRegistered" class="form-group">
+              <input
+                v-model.trim="firstName"
+                class="input"
+                placeholder="Please enter your name"
+                @keyup.enter="onSubmit"
               />
-              <div class="top__button" @click="onSubmit">
-                <a>
-                  Receive via
-                  {{ activeSocial.title }}
-                </a>
-              </div>
-            </template>
+              <input
+                v-model.trim="email"
+                class="input"
+                :class="{ isValid: !isValid }"
+                placeholder="Please enter a valid email"
+                @blur="checkForm"
+                @keydown.enter.prevent="onSubmit"
+              />
+              <span
+                v-if="!isValid"
+                class="not__valid"
+                :class="{ notValid: !isValid }"
+              >
+                Please enter a valid email address
+              </span>
+            </div>
+
+            <socials
+              :items="socials"
+              :description="popupContent.question"
+              :value.sync="messengerType"
+              :translate-lang="translateLang"
+            />
+            <div class="top__button" @click="onSubmit">
+              <a>
+                Receive via
+                {{ activeSocial.title }}
+              </a>
+            </div>
           </div>
         </template>
         <template v-else>
@@ -120,7 +91,7 @@ export default {
 
   data() {
     return {
-      state: "request",
+      state: "send",
       isRegistered: false,
       firstName: "",
       email: "",
@@ -154,29 +125,29 @@ export default {
           title: "WhatsApp",
           icon: "whatsApp",
           activeIcon: "whatsApp-active",
-          url: "https://api.whatsapp.com/send?phone=19498607007&text=",
+          url: "https://api.whatsapp.com/send/?phone=12512973600",
         },
         {
           id: "messanger",
           title: "Messenger",
           icon: "fb-messanger",
           activeIcon: "fb-messanger-active",
-          url: "http://m.me/Inspire360Now?message=1111",
+          url: "m.me/AWR360",
         },
-        {
-          id: "viber",
-          title: "Viber",
-          icon: "viber",
-          activeIcon: "viber-active",
-          url: "viber://pa?chatURI=Inspire360Now&text=",
-        },
-        {
-          id: "telegram",
-          title: "Telegram",
-          icon: "telegram",
-          activeIcon: "telegram-active",
-          url: "https://t.me/r360bot/?text=",
-        },
+        // {
+        //   id: "viber",
+        //   title: "Viber",
+        //   icon: "viber",
+        //   activeIcon: "viber-active",
+        //   url: "viber://pa?chatURI=Inspire360Now&text=",
+        // },
+        // {
+        //   id: "telegram",
+        //   title: "Telegram",
+        //   icon: "telegram",
+        //   activeIcon: "telegram-active",
+        //   url: "https://t.me/r360bot/?text=",
+        // },
       ];
 
       if (this.countryCode === "US" || this.countryCode === "CA") {
@@ -298,6 +269,8 @@ export default {
   width: 100%;
   height: 100vh;
   position: fixed;
+  top: 0;
+  left: 0;
   z-index: 1000;
   background: rgba(0, 0, 0, 0.6);
   transition: all 0.4s ease-in-out;

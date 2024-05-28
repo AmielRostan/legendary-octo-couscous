@@ -55,7 +55,8 @@ export default {
     const result = new Date(
       now.getFullYear(),
       now.getMonth(),
-      now.getDate() + ((7 + 4 - now.getDay()) % 7),
+      // Here is the target day it was 4 and I changed to 5 to friday
+      now.getDate() + ((7 + 5 - now.getDay()) % 7),
       19,
       0
     );
