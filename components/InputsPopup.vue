@@ -138,9 +138,9 @@ export default {
         "https://api.hsforms.com/submissions/v3/integration/submit/4189584/d9f6aeef-5e97-48ea-ba80-b55e0c0cd081";
 
       try {
-        console.log("Sending POST request", formData); // Depuración
-        const response = await axios.post(url, formData);
-        console.log("Response:", response); // Depuración
+        // const response =
+        await axios.post(url, formData);
+        // console.log("Response:", response);
         this.popup = "success";
       } catch (error) {
         console.error("Error submitting form:", error);

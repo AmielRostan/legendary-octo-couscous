@@ -75,14 +75,6 @@ export default {
       showRequestCoach: false,
       showSignUpMessage: true,
       showInputsPopup: false,
-      // signUpContent: {
-      //   title: "Sign Up",
-      //   desc: "Please fill in the details below to create an account.",
-      //   question: "",
-      //   placeholder: "Enter your details",
-      //   btnText: "Sign Up",
-      //   showSocials: false,
-      // },
       pray: {
         id: "prayRequest",
         icon: "pray-hands",
@@ -187,12 +179,7 @@ export default {
       }
     },
     openRegisterPopup() {
-      // this.popupContent = this.signUpContent;
-      // this.$emit("show-popup", "reg");
       this.showInputsPopup = true;
-      // this.$refs.inputsPopup.page = "reg";
-      // this.showSignUpMessage = false;
-      // this.isUserLoggedIn = true;
     },
     openCloseInputsPopup(status) {
       if (status === "reg") {

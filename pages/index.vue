@@ -13,11 +13,6 @@
       @user-logged-out="handleUserLoggedOut"
     />
     <Footer />
-    <InputsPopup
-      v-if="showInputsPopup"
-      :page="inputsPopupPage"
-      @closePopup="closeInputsPopup"
-    />
   </div>
 </template>
 
@@ -36,7 +31,6 @@ export default {
     Footer: () => import("~/components/Footer"),
     CallToActions: () => import("~/components/CallToActions.vue"),
     FormWithSocials: () => import("~/components/FormWithSocials"),
-    // InputsPopup: () => import("~/components/InputsPopup"),
   },
   data: () => ({
     email: null,
@@ -65,13 +59,6 @@ export default {
     openCloseForm(item) {
       this.popupContent = item;
       this.showPopup = !this.showPopup;
-    },
-
-    handleUserRegistered() {
-      this.showSignUpButton = false;
-    },
-    handleUserLoggedOut() {
-      this.showSignUpButton = true;
     },
 
     openRegisterPopup() {
