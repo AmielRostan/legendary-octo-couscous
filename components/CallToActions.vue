@@ -12,13 +12,15 @@
         Do you want to sign up to get weekly reminders via email? They contain
         special insights into the topic!
       </span>
-      <a class="CallToActions__registerButton">Sign Up</a>
+      <a class="CallToActions__registerButton" @click="openRegisterPopup">
+        Sign Up
+      </a>
     </div>
-    <!--<RequestCoach
+    <RequestCoach
       class="CallToActions__RequestCoach"
       :translate-lang="translateLang"
       @openPopup="openCloseInputsPopup"
-    />-->
+    />
     <div class="CallToActions__Cards">
       <template v-for="(item, index) in items">
         <Card
@@ -39,7 +41,7 @@ export default {
 
   components: {
     Card: () => import("~/components/Card"),
-    // RequestCoach: () => import("~/components/RequestCoach"),
+    RequestCoach: () => import("~/components/RequestCoach"),
     FormWithSocials: () => import("~/components/FormWithSocials"),
   },
 
@@ -54,6 +56,7 @@ export default {
     return {
       popupContent: "",
       showFormWithSocials: false,
+      showRequestCoach: false,
       pray: {
         id: "prayRequest",
         icon: "pray-hands",
@@ -141,6 +144,17 @@ export default {
         this.popupContent = this.question;
         this.showFormWithSocials = true;
       }
+    },
+    openRegisterPopup() {
+      this.showFormWithSocials = true;
+    },
+    openCloseInputsPopup(status) {
+      if (status === "reg") {
+        this.showFormWithSocials = true;
+      } else if (status === "success") {
+        alert("Successfully registered!");
+      }
+      this.showRequestCoach = false;
     },
   },
 };
